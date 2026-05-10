@@ -2,7 +2,8 @@ import requests
 import json
 from datetime import datetime, timedelta
 
-API_KEY = "93ffc4b2b6f5c161dd315a71b84e2408"
+import os
+API_KEY = os.environ.get("GNEWS_API_KEY", "93ffc4b2b6f5c161dd315a71b84e2408")
 BASE_URL = "https://gnews.io/api/v4/search"
 
 TOPICS = [
