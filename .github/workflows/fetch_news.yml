@@ -2,8 +2,11 @@ name: Fetch News Daily
 
 on:
   schedule:
-    - cron: '0 7 * * *'  # runs every day at 7am UTC
-  workflow_dispatch:       # lets you run it manually too
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   fetch:
@@ -11,10 +14,10 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -22,6 +25,8 @@ jobs:
         run: pip install requests
 
       - name: Run fetch script
+        env:
+          GNEWS_API_KEY: ${{ secrets.GNEWS_API_KEY }}
         run: python fetch_news.py
 
       - name: Commit and push news.json
